@@ -1,0 +1,53 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>게시판</title>
+		<link rel="stylesheet" type="text/css" href="{% static 'style_board.css'%}">
+		<script src="{% static 'jquery-3.6.0.js'%}"></script>
+		<script src="{% static 'script_board.js'%}"></script>
+	</head>
+	<body>
+		<h2> 글쓰기 </h2>
+		{% csrf_token %}
+		<form method="post" action="writepro" onsubmit="return writecheck()">
+			<input type="hidden" name="num" value="{{num}}">
+			<input type="hidden" name="ref" value="{{ref}}">
+			<input type="hidden" name="restep" value="{{restep}}">
+			<input type="hidden" name="relevel" value="{{relevel}}">
+			<table>
+				<tr>
+					<td colspan="2" align="right">
+						<a href="boardlist">글목록</a>&nbsp;&nbsp;&nbsp;
+					</td>
+				</tr>
+				<tr>
+					<th> 작성자 </th>
+					<td> <input  class="input" type="text" name="writer" autofocus>
+				</tr>
+				<tr>
+					<th> 제목 </th>
+					<td> <input  class="input" type="text" name="subject">
+				</tr>
+				<tr>
+					<th> 내용 </th>
+					<td>
+						 <textarea rows="10" cols="35" name="content"></textarea>
+					</td>
+				</tr>
+				<tr>
+					<th> 비밀번호 </th>
+					<td> <input class="input" type="password" name="passwd"></td>
+				</tr>
+				<tr>
+					<th colspan="2">
+						<input class="inputbutton" type="submit" value="전송">
+						<input class="inputbutton" type="reset" value="취소">
+						<input class="inputbutton" type="button" value="목록" onclick="location='boardlist'">
+					</th>
+				</tr>	
+			</table>
+		</form>
+	</body>
+</html>

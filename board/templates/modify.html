@@ -1,0 +1,42 @@
+{% load static %}
+<!DOCTYPE html>
+	<html>
+	<head>
+		<meta charset="utf-8">
+		<title> 게시판 </title>
+		<link rel="stylesheet" type="text/css" href="{% static 'style_board.css'%}">
+		<script src="{% static 'jquery-3.6.0.js'%}"></script>
+		<script src="{% static 'script_board.js'%}"></script>	
+	</head>
+	<body>
+		<h2> 글수정 </h2>
+		{% csrf_token %}
+		<form method="post" action="modifyview">
+			<input type="hidden" name="num" value="{{num}}">
+			<input type="hidden" name="pagenum" value="{{pagenum}}">
+			<input type="hidden" name="number" value="{{number}}">
+			<table>
+				<tr>
+					<th colspan = "2">
+						{% if not msg %}
+							비밀번호를 다시 입력하세요
+						{% endif %}
+						{% if msg %}
+							비밀번호가 다릅니다.
+						{% endif %}
+					</th>
+				</tr>
+				<tr>
+					<th> 비밀번호 </th>
+					<td> <input class="input" type="password" name="passwd" autofocus></td>
+				</tr>
+				<tr>
+					<th colspan="2">
+						<input class="inputbutton" type="submit" value="수정">
+						<input class="inputbutton" type="button" value="목록" 
+							onclick="location='boardlist?pagenum={{pagenum}}'">
+				</tr>
+			</table>
+		</form>
+	</body>
+</html>

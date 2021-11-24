@@ -1,0 +1,101 @@
+{% load static %}
+{% load mathfilters %}
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>게시판</title>
+		<link rel="stylesheet" type="text/css" href="{% static 'style_board.css'%}">
+	</head>
+	<body>
+		<h2> 글목록 (전체글 : {{count}} ) </h2>
+		<table>
+			<tr>
+				<td colspan="6" align="right">
+					<a href="writepro">글쓰기</a>&nbsp;
+				</td>
+			</tr>
+			<tr>
+				<th style="width:8%"> 글번호 </th>
+				<th style="width:40%"> 제목 </th>
+				<th style="width:8%"> 조회수 </th>
+				<th style="width:15%"> 작성자 </th>
+				<th style="width:15%"> 작성일 </th>
+				<th style="width:15%"> IP </th>
+			</tr>
+			{% if count == 0 %}
+				<!--  글이 없는경우  -->
+				<tr>
+					<td align="center" colspan="6"> 글이 없습니다. </td>
+				</tr>				
+			{% endif%}
+			{% if count > 0 %}
+				<!--  글이 있는경우  -->
+				{% for dto in dtos %}
+					<tr>
+						<td align="center"> 
+							{{number|sub:forloop.counter0}}
+						</td>
+						<td>
+							{% if dto.relevel > 1 %}
+								
+								<img src="{% static 'level.gif'%}" border="0" width="{{dto.relevel|mul:5}}">
+							{% endif %}
+							{% if dto.relevel > 0 %}
+								<img src="{% static 're.gif'%}" border="0" width="20">
+							{% endif %}
+							
+							{% if dto.readcount == -1 %}
+								{{dto.subject}}
+							{% endif %}
+							{%if dto.readcount != -1 %}
+								<a href="detail?num={{dto.num}}&pagenum={{pagenum}}&number={{number|sub:forloop.counter0}}">
+									{{dto.subject}}
+								</a>
+							{% endif %}
+						</td>						
+						<td align="center">
+							{% if dto.readcount == -1%}
+								0
+							{% endif %}
+							{% if dto.readcount != -1%}
+								{{dto.readcount}}
+							{% endif %}
+						</td>
+						<td align="center">
+							{{dto.writer}}
+						</td>						
+						<td align="center">
+							{{dto.regdate|date:"Y-m-d H:i"}}
+						</td>
+						<td align="center">
+							{{dto.ip}}
+						</td>
+					</tr>
+				{% endfor %}
+			{% endif %}
+		</table>
+		<br>
+				
+		
+		{% if startpage > pageblock %}
+			<a href="boardlist">[<<]</a>
+			<a href="boardlist?pagenum={{startpage|sub:pageblock}}">[이전]</a>
+		{% endif %}
+					
+		{% for page in pages %}
+			{% if page == pagenum %}
+		 		<b>[{{page}}]</b>
+		 	{% endif %}
+		 	{% if page != pagenum %}
+		 		<a href="boardlist?pagenum={{page}}">[{{page}}]</a>
+		 	{% endif %}
+		{% endfor %}
+		
+		{% if endpage < pagecount %}
+			<a href="boardlist?pagenum={{startpage|add:pageblock}}">[다음]</a>
+			<a href="boardlist?pagenum={{pagecount}}">[>>]</a>
+		{% endif %}
+			
+	</body>
+</html>

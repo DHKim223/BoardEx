@@ -1,0 +1,51 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title> 게시판 </title>
+		<link rel="stylesheet" type="text/css" href="{% static 'style_board.css'%}">
+		<script src="{% static 'jquery-3.6.0.js'%}"></script>
+		<script src="{% static 'script_board.js'%}"></script>	
+	</head>
+	<body>
+		<h2> 글수정 </h2>
+		{% csrf_token %}
+		<form method="post" action="modifypro">
+			<input type="hidden" name="num" value="{{num}}">  <!--  num값을 넘겨주기 위해 필요  -->
+			<table>
+				<tr>
+					<th colspan="2">
+						수정할 정보를 입력하세요
+					</th>
+				</tr>
+				<tr>
+					<th> 작성자 </th>
+					<td> &nbsp;{{dto.writer}} </td>
+				</tr>
+				<tr>
+					<th> 제목 </th>
+					<td> <input class="input" type="text" name="subject" value="{{dto.subject}}">
+				</tr>
+				<tr>
+					<th> 내용 </th>
+					<td>
+						<textarea name="content" rows="10" cols="40">{{dto.content}}</textarea>
+					</td>
+				</tr>
+				<tr>
+					<th> 비밀번호 </th>
+					<td> <input class="input" type="password" name="passwd" value="{{dto.passwd}}">
+				</tr>
+				<tr>
+					<th colspan="2">
+						<input class="inputbutton" type="submit" value="수정">
+						<input class="inputbutton" type="reset" value="취소">
+						<input class="inputbutton" type="button" value="목록"
+							onclick="location='boardlist?pagenum={{pagenum}}'">
+					</th>
+				</tr>
+			</table>
+		</form>
+	</body>
+</html>
